@@ -177,7 +177,7 @@ public class HttpClientAdapter implements Closeable {
             connectionManager = new BasicHttpClientConnectionManager(SCHEME_REGISTRY);
         }
         HttpClientBuilder clientBuilder = HttpClientBuilder.create()
-                .disableRedirectHandling()
+                .setRedirectStrategy(new LaxRedirectStrategy())
                 .setDefaultRequestConfig(getRequestConfig())
                 .setUserAgent(getUserAgent())
                 .setDefaultAuthSchemeRegistry(getAuthSchemeRegistry())
@@ -241,7 +241,6 @@ public class HttpClientAdapter implements Closeable {
         }
 
         clientBuilder.setDefaultCredentialsProvider(provider);
-        clientBuilder.setRedirectStrategy(new LaxRedirectStrategy());
 
         httpClient = clientBuilder.build();
     }
